@@ -11,7 +11,7 @@ import SearchParams from "./SearchParams";
 import { useState } from "react/cjs/react.development";
 
 const App = () => {
-  const theme = useState("pink"); //passed theme
+  const theme = useState("darkblue"); //passed theme
   return (
     <ThemeContext.Provider value={theme}>
       <div>

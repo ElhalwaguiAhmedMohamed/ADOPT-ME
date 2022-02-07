@@ -2,10 +2,11 @@ import { Component } from "react";
 import { withRouter } from "react-router";
 import Carousel from "./Carousel";
 import ErrorBoundry from "./ErrorBoundry";
-
+import ThemeContext from "./ThemeContext";
+import Modal from "./Modal";
 class Details extends Component {
   //old fashion to write components
-  state = { loading: true }; //default state of our component without using the constructor
+  state = { loading: true, showModal: false }; //default state of our component without using the constructor
 
   async componentDidMount() {
     //called when the component is rendered for the first time
@@ -23,11 +24,14 @@ class Details extends Component {
       )
     );
   }
+  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  adopt = () => (window.location = "http://bit.ly/pet-adopt");
+
   render() {
     if (this.state.loading) {
       return <h2>Loading...</h2>;
     }
-    const { animal, breed, city, state, description, name, images } =
+    const { animal, breed, city, state, description, name, images, showModal } =
       this.state;
     return (
       <div className="details">
@@ -35,8 +39,26 @@ class Details extends Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${city} - ${state}`}</h2>
-          <button>Adopt {name}</button>
+          <ThemeContext.Consumer>
+            {([theme]) => (
+              <button
+                onClick={this.toggleModal}
+                style={{ backgroundColor: theme }}
+              >
+                Adopt {name}
+              </button>
+            )}
+          </ThemeContext.Consumer>
           <p>{description}</p>
+          {showModal ? (
+            <Modal>
+              <div>
+                <h1>Would you like to adopt {name}?</h1>
+                <button onClick={this.adopt}>Yes</button>
+                <button onClick={this.toggleModal}>No</button>
+              </div>
+            </Modal>
+          ) : null}
         </div>
       </div>
     );

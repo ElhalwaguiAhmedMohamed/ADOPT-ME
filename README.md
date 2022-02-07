@@ -3,4 +3,4 @@
 # Demo
 
 
-![video](./extra/demovideo.gif)
+![video](./extra/demovideo.mp4)
